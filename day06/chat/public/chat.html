@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>群聊</title>
+
+<link href="https://cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css" rel="stylesheet">
+
+  <style media="screen">
+  *{
+    margin:0;
+    padding: 0;
+  }
+    li {
+      width: 60%;
+      height: 15%;
+      border: 1px solid #444;
+      background: #baeeff;
+      list-style: none;
+      font-size: 18px;
+      border-radius: 5px;
+    }
+
+    span {
+      float: left;
+      width: 9%;
+      height: 2%;
+      background: #888;
+      color: #00BC2C;
+      text-align: center;
+      border-radius: 50%;
+      position: relative;
+      top: 11%;
+      left: -12%;
+      font-weight: bolder;
+    }
+
+    .dis {
+      display: none;
+    }
+
+    .btn {
+      background: #baeeff;
+    }
+
+    input {
+      margin-bottom: 5%;
+    }
+
+    .right {
+      display: block;
+      margin-left: 38%;
+      margin-bottom: 5px;
+      background: #F0FFF0 !important;
+    }
+
+    .left {
+      background: #baeeff;
+      margin-bottom: 15px;
+    }
+
+    #ul {
+      width: 100%;
+      height: 100%;
+      padding-left: 3px;
+      margin-bottom: 10%;
+    }
+
+    .weui-btn {
+      width: 30%;
+    }
+
+    #form {
+      width: 100%;
+      height: 80%;
+      position: fixed;
+      top: 94%;
+      background: #fff;
+    }
+
+    #input {
+      width: 81%;
+      height: 7%;
+
+    }
+
+    #btn {
+      width: 18%;
+      height: 8%;
+      float: right;
+      background: #00BC2C;
+    }
+
+    a {
+      display: block;
+      width: 49%;
+
+      border: 1px solid #444;
+      float: left;
+      font-size: 20px;
+      text-align: center;
+      text-decoration: none;
+      opacity: 1;
+    }
+
+    .weui-navbar {
+      width: 100%;
+      height: 4%;
+      position: fixed;
+      background: #fff;
+    }
+    i{
+      color: #00BC2C;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="weui-tab">
+      <div class="weui-navbar">
+
+        <a class="weui-navbar__item weui-bar__item--on" href="#tab1">
+        聊天
+      </a>
+
+        <a class="weui-navbar__item" href="#tab2">
+        朋友
+      </a>
+
+      </div>
+
+      <div class="weui-tab__bd">
+        <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
+          <ul id="ul" class="list-group"></ul>
+          <form id="form" action="url" method="post" class="weui-cells weui-cells_form">
+            <input id="input" class="weui-input" type="text" placeholder="聊起来聊起来 ....^_^">
+            <button id="btn" class="weui-btn weui-btn_primary">发送</button>
+          </form>
+        </div>
+
+        <div id="tab2" class="weui-tab__bd-item">
+          <div id="join"></div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+  <script src="https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js"></script>
+  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+  <script type="text/javascript">
+    var addName;
+    var socket = io();
+
+    $('form').submit(() => {
+      // var name = $('.name').val();
+      $('.name').addClass('dis');
+      //拿到输入内容 触发chat msg，
+      socket.emit('chat msg', $('#input').val());
+      $('#input').val('');
+      //触发ferret，判断是否成功发送
+      socket.emit('ferret', function(data) {
+
+        $('li').last().addClass('right');
+
+        $('li').last().append($('<span>').html('<c class="weui_icon_success">√</c>'));
+        $('span').addClass('badge');
+      });
+      return false;
+    });
+    //触发chat msg, 将输入内容发送出去
+    socket.on('chat msg', (msg, nameC, nameA) => {
+      addName = nameA;
+      $('ul').append($('<li class="list-group-item left">').text(nameC + ': ' + msg));
+    });
+    //判断是否有人加入
+    socket.on('broadcast', function(msg) {
+      $('#join').append('<h2><strong><i>/“' + msg + '”/</i>加入聊天</strong></h2>')
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <style media="screen">
+    li {
+      width: 340px;
+    }
+
+    .container {
+      width: 700px;
+      margin-top: 50px;
+    }
+
+    .dis {
+      display: none;
+    }
+
+    .btn {
+      background: #baeeff;
+    }
+
+    input {
+      margin-bottom: 10px;
+    }
+
+    .right {
+      display: block;
+      margin-left: 370px;
+      margin-bottom: 5px;
+      background: #3eb97f;
+    }
+
+    .left {
+      background: #baeeff;
+      margin-bottom: 5px;
+    }
+
+    #ul {
+      width: 400px;
+    }
+  </style>
+</head>
+<div class="container">
+
+  <body>
+    <div id="join"></div>
+    <ul id="ul" class="list-group"></ul>
+    <form id="form" action="index.html" method="post">
+
+      <input id="one" class="form-control name" type="text" placeholder="请输入昵称">
+      <input class="form-control input" type="text" placeholder="聊起来聊起来 ....^_^">
+      <button class="btn btn-default">发送</button>
+    </form>
+</div>
+<script src="https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+  var socket = io();
+
+  $('form').submit(() => {
+    var name = $('.name').val();
+    $('.name').addClass('dis');
+    //拿到输入内容 触发chat msg，
+    socket.emit('chat msg', $('.input').val(), name);
+    $('.input').val('');
+    //触发ferret，判断是否成功发送
+    socket.emit('ferret', function(data) {
+      $('li').last().append($('<span>').html('<strong id="gou"class="glyphicon glyphicon-ok" aria-hidden="true"></strong>'));
+      $('span').addClass('badge');
+    });
+    return false;
+  });
+  //触发chat msg, 将输入内容发送出去
+  socket.on('chat msg', (msg, name) => {
+    if (name === $('.name').val()) {
+      $('ul').append($('<li class="list-group-item right">').text(name + ': ' + msg));
+    } else {
+      $('ul').append($('<li class="list-group-item left">').text(name + ': ' + msg));
+    }
+  });
+  //判断是否有人加入
+  socket.on('broadcast', function(msg) {
+    console.log('broadcast!');
+    console.log(6);
+    $('#join').append('<h2><strong>Welcome to new friend.</strong></h2>')
+  })
+</script>
+</body>
+
+</html>

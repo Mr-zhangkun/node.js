@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <title>登录</title>
+  <style media="screen">
+    form{
+      width: 400px;
+      height: 600px;
+      margin: 50px 375px;
+    }
+    h1{
+      text-align: center;
+    }
+    .btn{
+      width: 402px;
+      margin:5px auto;
+      background: #BAEEFF;
+    }
+    a{
+      margin-right: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Node.js!</h1>
+    <form method="POST" action="url">
+      <fieldset>
+        <div class="form-group">
+          <label>账号</label>
+          <input class="form-control" type="text" name="name" required="required" placeholder="请输入注册账号" pattern="[0-9]{5}">
+        </div>
+        <div class="form-group">
+          <label>密码</label>
+          <input class="form-control" type="password" name="password" required="required" placeholder="请输入密码" pattern="[0-9a-z]{8,15}">
+        </div>
+        <div class="form-group">
+          <button class="btn btn-default">登录</button>
+        </div>
+        <a href="login">注册账户</a><a href="find">忘记密码</a>
+    </form>
+
+  </div>
+
+
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+  </script>
+</body>
+
+</html>

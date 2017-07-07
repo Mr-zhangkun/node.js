@@ -4,12 +4,16 @@
   "description": "hello world",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "keywords": [
     "hello",
     "world"
   ],
   "author": "Arvin Zhang",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "express": "^4.15.3"
+  }
 }
